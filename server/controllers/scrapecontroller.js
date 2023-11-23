@@ -1,12 +1,11 @@
 import asyncHandler from "express-async-handler";
-import * as cheerio from "cheerio"
-import { scrapeAmazon, scrapeFlipkart, scrapeShopclues } from "../utils/scrapper.js";
+import { scrapeAmazon, scrapeFlipkart, scrapeShopclues, scrapeSnapdeal } from "../utils/scrapper.js";
 
 export const scrapeWeb = asyncHandler(async (req, res) => {
-    let product = "apple"
+    let product = "jeans"
     let n = 8;
 
-    const flipkartRes = await scrapeShopclues(product, n);
+    const flipkartRes = await scrapeSnapdeal(product, n);
 
     // console.log(awazonRes.length);
     res.json({res: flipkartRes})

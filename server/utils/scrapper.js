@@ -110,7 +110,7 @@ export const scrapeShopclues = async (product, no_of_products) => {
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
     };
 
-    const resp = await fetch(`https://www.shopclues.com/search?q=iphone`, {
+    const resp = await fetch(`https://www.shopclues.com/search?q=${product}`, {
         headers,
     });
     const text = await resp.text();
@@ -138,6 +138,51 @@ export const scrapeShopclues = async (product, no_of_products) => {
             originalPrice,
             discount,
             refurbishedBadge
+        });
+    });
+
+    return resultArray;
+};
+
+export const scrapeSnapdeal = async (product, no_of_products) => {
+    const headers = {
+        "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    };
+
+    const resp = await fetch(`https://www.snapdeal.com/search?keyword=${product}`, {
+        headers,
+    });
+    const text = await resp.text();
+    // return text
+
+    const $ = cheerio.load(text);
+    const productTuples = $("div.col-xs-6.favDp.product-tuple-listing.js-tuple");
+
+    const resultArray = [];
+    productTuples.each((index, element) => {
+        if (resultArray.length >= no_of_products) return;
+
+        const title = $(element).find('p.product-title').attr('title');
+        const imageSrc = $(element).find('div.product-tuple-image img.product-image').attr('src');
+        const productUrl = $(element).find('a.dp-widget-link.hashAdded').attr('href');
+        const originalPrice = $(element).find('span.product-desc-price.strike').text().trim();
+        const price = $(element).find('span.product-price').text().trim();
+        const discount = $(element).find('div.product-discount span').text().trim();
+        const ratingPercentage = $(element).find('div.filled-stars').css('width');
+        const numRatings = $(element).find('p.product-rating-count').text().trim();
+        const colorAttribute = $(element).find('div.product-tuple-attribute span.attr-value.color-attr').text().trim();
+
+        resultArray.push({
+            title,
+            imageSrc,
+            productUrl,
+            originalPrice,
+            price,
+            discount,
+            ratingPercentage,
+            numRatings,
+            colorAttribute,
         });
     });
 
