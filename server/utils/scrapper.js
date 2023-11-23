@@ -1,12 +1,12 @@
 import * as cheerio from "cheerio"
 
-export const scrapeAmazon = async (website, product, no_of_products) => {
+export const scrapeAmazon = async (product, no_of_products) => {
     const headers = {
         "User-Agent":
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
     };
 
-    const resp = await fetch(`https://www.${website}.in/s?k=${product}`, {
+    const resp = await fetch(`https://www.amazon.in/s?k=${product}`, {
         headers,
     });
     const text = await resp.text();
