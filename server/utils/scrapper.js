@@ -76,13 +76,17 @@ export const scrapeFlipkart = async (product, no_of_products) => {
     divsWithClassX.each((index, element) => {
         if (resultArray.length >= no_of_products) return;
         const title = $(element).find('._4rR01T').text().trim();
-        const rating = $(element).find('span.f3A4_V .gUuXy- .hGSR34').text().trim();
-        const numRatings = $(element).find('span._2_R_DZ span').text().trim();
+        
+        const rating = $(element).find('._1lRcqv').text().trim();
+
+        const numRatings = $(element).find('span._2_R_DZ').text().trim();
+
+
         const features = [];
         $(element).find('div.fMghEO ul._1xgFaf li').each((_, featureElement) => {
             features.push($(featureElement).text().trim());
         });
-        const price = $(element).find('div._30jeq3').text().trim();
+        const discountedPrice = $(element).find('div._30jeq3').text().trim();
         const originalPrice = $(element).find('div._3I9_wc').text().trim();
         const discount = $(element).find('div._3Ay6Sb span').text().trim();
 
@@ -91,7 +95,7 @@ export const scrapeFlipkart = async (product, no_of_products) => {
             rating,
             numRatings,
             features,
-            price,
+            discountedPrice,
             originalPrice,
             discount,
         });
