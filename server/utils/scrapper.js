@@ -188,3 +188,44 @@ export const scrapeSnapdeal = async (product, no_of_products) => {
 
     return resultArray;
 };
+
+export const scrapeNykaa = async (product, no_of_products) => {
+    const headers = {
+        "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    };
+
+    const resp = await fetch(`https://www.nykaa.com/search/result/?q=apple`, {
+        headers,
+    });
+    const text = await resp.text();
+    // return text
+
+    const $ = cheerio.load(text);
+    const productWrappers = $("div.productWrapper.css-17nge1h");
+
+    const resultArray = [];
+    productWrappers.each((index, element) => {
+        if (resultArray.length >= no_of_products) return;
+
+        const title = $(element).find('div.css-xrzmfa').text().trim();
+        const imageSrc = $(element).find('div.lazy-load-wrap img.css-11gn9r6').attr('src');
+        const productUrl = "https://www.nykaa.com"  + $(element).find('a.css-qlopj4').attr('href');
+        const originalPrice = $(element).find('span.css-17x46n5 span').text().trim();
+        const price = $(element).find('span.css-111z9ua').text().trim();
+        const discount = $(element).find('span.css-cjd9an').text().trim();
+        const totalRatings = $(element).find('span.css-1qbvrhp').text().replace(/[^\d]/g, '');
+
+        resultArray.push({
+            title,
+            imageSrc,
+            productUrl,
+            originalPrice,
+            price,
+            discount,
+            totalRatings,
+        });
+    });
+
+    return resultArray;
+};
