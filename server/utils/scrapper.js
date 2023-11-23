@@ -1,4 +1,4 @@
-import * as cheerio from "cheerio"
+import * as cheerio from "cheerio";
 
 export const scrapeAmazon = async (product, no_of_products) => {
     const headers = {
@@ -44,7 +44,6 @@ export const scrapeAmazon = async (product, no_of_products) => {
         );
         const totalReviews = totalReviewsContainer.text().trim();
 
-
         resultArray.push({
             name,
             discountedPrice,
@@ -55,7 +54,7 @@ export const scrapeAmazon = async (product, no_of_products) => {
         });
     });
 
-    return resultArray
+    return resultArray;
 };
 
 export const scrapeFlipkart = async (product, no_of_products) => {
@@ -75,20 +74,21 @@ export const scrapeFlipkart = async (product, no_of_products) => {
     const resultArray = [];
     divsWithClassX.each((index, element) => {
         if (resultArray.length >= no_of_products) return;
-        const title = $(element).find('._4rR01T').text().trim();
-        
-        const rating = $(element).find('._1lRcqv').text().trim();
+        const title = $(element).find("._4rR01T").text().trim();
 
-        const numRatings = $(element).find('span._2_R_DZ').text().trim();
+        const rating = $(element).find("._1lRcqv").text().trim();
 
+        const numRatings = $(element).find("span._2_R_DZ").text().trim();
 
         const features = [];
-        $(element).find('div.fMghEO ul._1xgFaf li').each((_, featureElement) => {
-            features.push($(featureElement).text().trim());
-        });
-        const discountedPrice = $(element).find('div._30jeq3').text().trim();
-        const originalPrice = $(element).find('div._3I9_wc').text().trim();
-        const discount = $(element).find('div._3Ay6Sb span').text().trim();
+        $(element)
+            .find("div.fMghEO ul._1xgFaf li")
+            .each((_, featureElement) => {
+                features.push($(featureElement).text().trim());
+            });
+        const discountedPrice = $(element).find("div._30jeq3").text().trim();
+        const originalPrice = $(element).find("div._3I9_wc").text().trim();
+        const discount = $(element).find("div._3Ay6Sb span").text().trim();
 
         resultArray.push({
             title,
@@ -104,3 +104,42 @@ export const scrapeFlipkart = async (product, no_of_products) => {
     return resultArray;
 };
 
+export const scrapeShopclues = async (product, no_of_products) => {
+    const headers = {
+        "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    };
+
+    const resp = await fetch(`https://www.shopclues.com/search?q=iphone`, {
+        headers,
+    });
+    const text = await resp.text();
+
+    const $ = cheerio.load(text);
+    const productBlocks = $(".column.col3.search_blocks");
+
+    const resultArray = [];
+    productBlocks.each((index, element) => {
+        if (resultArray.length >= no_of_products) return;
+        const title = $(element).find("h2").text().trim();
+        const imageSrc = $(element).find("div.img_section img").attr("src");
+        const productUrl = $(element).find("a").attr("href");
+        const price = $(element).find("div.p_price").text().trim();
+        const originalPrice = $(element).find("span.old_prices span").text().trim();
+        const discount = $(element).find("span.prd_discount").text().trim();
+        const refurbishedBadge = $(element).find("div.refurbished_i").text().trim();
+
+
+        resultArray.push({
+            title,
+            imageSrc,
+            productUrl,
+            price,
+            originalPrice,
+            discount,
+            refurbishedBadge
+        });
+    });
+
+    return resultArray;
+};
