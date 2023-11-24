@@ -8,7 +8,7 @@ function App() {
     <Router>
       <main>
         <Route path="/" component={HomeScreen} exact />
-        <Route path="/register" element={Register} />
+        <Route path="/register" component={Register} />
       </main>
     </Router>
   );
