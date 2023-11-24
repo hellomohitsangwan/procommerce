@@ -11,7 +11,6 @@ import {
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_RESET,
-  USER_LIST_RESET
 } from "../constants/userConstants";
 
 export const login = (email, password) => async (dispatch) => {
@@ -82,8 +81,8 @@ export const register = (name, email, password,isAdmin) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: "USER_REGISTER_INFO_REMOVE" });
+  localStorage.setItem('userInfo', null)
   dispatch({ type: USER_DETAILS_RESET });
-  dispatch({ type: USER_LIST_RESET });
 };
 
 export const getUserDetails = (endpoint) => async (dispatch, getState) => {
