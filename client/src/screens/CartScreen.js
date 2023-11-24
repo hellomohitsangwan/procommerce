@@ -147,7 +147,7 @@ const CartScreen = ({ match, location, history }) => {
               <div className="gap"></div>
               <div className="checkout-underline"></div>
 
-              <ListGroup.Item>
+              <ListGroup.Item onClick={checkoutHandler} >
                 <Button
                   type="button"
                   className="btn btn-block checkout-btn"
