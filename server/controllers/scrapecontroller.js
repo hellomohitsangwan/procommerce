@@ -23,34 +23,38 @@ export const scrapeWeb = asyncHandler(async (req, res) => {
   try {
     const { searchTerm, filter, topN, comparisonWebsites } = req.body;
 
-    // Fetch data from scraping functions for each website
-    const amazonData = await scrapeAmazon(searchTerm, topN);
-    const flipkartData = await scrapeFlipkart(searchTerm, topN);
-    const shopcluesData = await scrapeShopclues(searchTerm, topN);
-    const snapdealData = await scrapeSnapdeal(searchTerm, topN);
-    const nykaaData = await scrapeNykaa(searchTerm, topN);
+    const websiteScrapingFunctions = {
+        amazon: scrapeAmazon,
+        flipkart: scrapeFlipkart,
+        shopclues: scrapeShopclues,
+        snapdeal: scrapeSnapdeal,
+        nykaa: scrapeNykaa,
+    };
 
-    // Combine data from all websites
-    const allData = [
-      ...amazonData,
-      ...flipkartData,
-      ...shopcluesData,
-      ...snapdealData,
-      ...nykaaData,
-    ];
+    // Fetch data from scraping functions for selected websites
+    const websitePromises = comparisonWebsites.map(async (website) => {
+        if (websiteScrapingFunctions[website]) {
+            const websiteData = await websiteScrapingFunctions[website](searchTerm, topN);
+            // Add a 'website' field to each item in the data
+            return websiteData.map(item => ({ ...item, website }));
+        }
+        return [];
+    });
+
+    // Wait for all promises to resolve
+    const websiteDataArrays = await Promise.all(websitePromises);
+
+    // Combine data from selected websites
+    const allData = websiteDataArrays.flat();
 
     // Apply filtering if specified
     let filteredData = allData;
-    if (filter === "highestPrice") {
-      filteredData = allData.sort(
-        (a, b) => b.discountedPrice - a.discountedPrice
-      );
-    } else if (filter === "lowestPrice") {
-      filteredData = allData.sort(
-        (a, b) => a.discountedPrice - b.discountedPrice
-      );
-    } else if (filter === "highestRating") {
-      filteredData = allData.sort((a, b) => b.rating - a.rating);
+    if (filter === 'highestPrice') {
+        filteredData = allData.sort((a, b) => b.discountedPrice - a.discountedPrice);
+    } else if (filter === 'lowestPrice') {
+        filteredData = allData.sort((a, b) => a.discountedPrice - b.discountedPrice);
+    } else if (filter === 'highestRating') {
+        filteredData = allData.sort((a, b) => b.rating - a.rating);
     }
 
     // Take the top N results
@@ -58,19 +62,20 @@ export const scrapeWeb = asyncHandler(async (req, res) => {
 
     // Prepare response array
     const responseArray = topResults.map((item) => ({
-      url: item.productUrl,
-      title: item.name,
-      reviewCount: item.totalReviews,
-      rating: item.rating,
-      currentPrice: item.discountedPrice,
-      // Add more fields as needed
+        url: item.productUrl,
+        title: item.name,
+        reviewCount: item.totalReviews,
+        rating: item.rating,
+        currentPrice: item.discountedPrice,
+        website: item.website, // Add the 'website' field
+        // Add more fields as needed
     }));
 
     res.json(responseArray);
-  } catch (error) {
+} catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+    res.status(500).json({ error: 'Internal Server Error' });
+}
 });
 
 // {

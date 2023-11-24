@@ -4,6 +4,6 @@ import {
     scrapeWeb
 } from "../controllers/scrapeController.js";
 
-router.route("/").get(scrapeWeb)
+router.route("/").post(scrapeWeb)
 
 export default router;
