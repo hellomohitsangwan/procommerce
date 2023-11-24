@@ -19,13 +19,14 @@ const HomeScreen = ({ match }) => {
 
   const productList = useSelector((state) => state.productList); //choose from whatever in our store
   const { loading, products, error } = productList;
-  console.log(products)
+  console.log(products);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(listProducts(keyword));
   }, [dispatch, keyword]);
   return (
     <>
+    <div className="container">
       <Slider />
       <div className="allProducts-title">
         <p>All Products</p>
@@ -63,8 +64,9 @@ const HomeScreen = ({ match }) => {
           ))}
         </Row>
       )}
-      <Footer />
-    </>
+      
+    </div>
+    <Footer /></>
   );
 };
 
