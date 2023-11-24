@@ -77,7 +77,7 @@ a:hover{
   color: var(--primaryColor);
 }
 .logo {
-  width: 12rem;
+  width: 10rem;
 }
 .info{
   z-index: 9999;

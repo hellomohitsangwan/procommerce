@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../actions/userActions";
-// import logo from "../images/logo1.svg";
 import cart from "../assets/cart.svg";
 import "../assets/navbar.css";
 import dropdown from "../assets/dropdown.svg";
@@ -23,10 +22,14 @@ const Header = () => {
       {location.pathname === "/iuyf" ? null : (
         <nav className="navbar">
           <div className="nav-center">
-            <Link to="/home">
-              {/* <img src={logo} alt="logo" className="logo" /> */}
-              Pro Commerce
+            <Link to="/profile">
+              <img
+                src="https://static.vecteezy.com/system/resources/previews/028/071/362/non_2x/shop-logo-with-bag-icon-for-e-commerce-and-store-logo-vector.jpg"
+                alt="logo"
+                className="logo"
+              />
             </Link>
+
             <ul className="nav-links">
               {userInfo ? (
                 <div className="info">
@@ -50,7 +53,7 @@ const Header = () => {
               )}
               {userInfo && userInfo.isAdmin && (
                 <>
-                <div>
+                  <div>
                     <Link to="/compare">Compare</Link>
                   </div>
                   <div>

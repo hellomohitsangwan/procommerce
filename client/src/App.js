@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import DashboardScreen from "./screens/DashboardScreen";
 import ProductListScreen from "./screens/ProductlistScreen";
 import NewProductScreen from "./screens/NewProductScreen";
+import ProductScreen from "./screens/ProductScreen";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Header />
         <Route exact path="/" component={HomeScreen} />
 
+        <Route path="/product/:id" component={ProductScreen} />
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
         <Route path="/dashboard" component={DashboardScreen} />

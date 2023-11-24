@@ -26,7 +26,6 @@ const HomeScreen = ({ match }) => {
   }, [dispatch, keyword]);
   return (
     <>
-    Home 
       <Slider />
       <div className="allProducts-title">
         <p>All Products</p>
