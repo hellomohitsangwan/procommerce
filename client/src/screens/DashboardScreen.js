@@ -49,10 +49,10 @@ const DashboardScreen = () => {
                   <div className="gap"></div>
                   <div className="rect-details">
                     <div className="heading">
-                      <p>Orders</p>
+                      <p>Compare Products</p>
                     </div>
                     <div className="dashArrow">
-                      <Link to={"/admin/orderlist"}>
+                      <Link to={"/admin/compare"}>
                         <button className="dashBtn">
                           <img src={dashArrow} alt="" />
                         </button>
@@ -68,10 +68,10 @@ const DashboardScreen = () => {
                   <div className="gap"></div>
                   <div className="rect-details">
                     <div className="heading">
-                      <p>Recom</p>
+                      <p>Delete Product</p>
                     </div>
                     <div className="dashArrow1 ">
-                      <Link to={"/recommendations"}>
+                      <Link to={"/admin/productlist"}>
                         <button className="dashBtn3">
                           <img src={dashArrow} alt="" />
                         </button>
@@ -88,9 +88,11 @@ const DashboardScreen = () => {
                       <p>Reviews</p>
                     </div>
                     <div className="dashArrow">
-                      <button className="dashBtn2">
-                        <img src={dashArrow} alt="" />
-                      </button>
+                    <Link to={"/admin/reviews"}>
+                        <button className="dashBtn3">
+                          <img src={dashArrow} alt="" />
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

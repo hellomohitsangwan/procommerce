@@ -7,11 +7,31 @@ import {
   userDetailReducer
 } from "./reducer/userReducer";
 
+import {
+  productListReducer,
+  productDetailReducer,
+  productDeleteReducer,
+  productCreateReducer,
+  productUpdateReducer,
+  newProductReducer,
+  productReducer,
+  productReviewCreateReducer,
+} from "./reducer/productListReducer";
+
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailReducer,
+
+  productList: productListReducer,
+  productDetails: productDetailReducer,
+  productDelete: productDeleteReducer,
+  newProduct: newProductReducer,
+  product: productReducer,
+  productReviewCreate: productReviewCreateReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
 });
 
 
