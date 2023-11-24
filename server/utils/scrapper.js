@@ -121,19 +121,21 @@ export const scrapeShopclues = async (product, no_of_products) => {
     productBlocks.each((index, element) => {
         if (resultArray.length >= no_of_products) return;
         const name = $(element).find("h2").text().trim();
+        const imageSrc = $(element).find("div.img_section img").attr("src");
         const productUrl = $(element).find("a").attr("href");
         const price = $(element).find("div.p_price").text().trim();
-        const originalPrice = $(element).find("span.old_prices span").text().trim();
-        const discountedPrice = $(element).find("span.prd_discount").text().trim();
+        const discountedPrice = $(element).find("span.old_prices span").text().trim();
+        const discount = $(element).find("span.prd_discount").text().trim();
         const refurbishedBadge = $(element).find("div.refurbished_i").text().trim();
+
 
         resultArray.push({
             name,
-            discountedPrice,
-            originalPrice,
+            imageSrc,
             productUrl,
-            rating: "4",
-            refurbishedBadge,
+            discountedPrice,
+            discount,
+            refurbishedBadge
         });
     });
 
@@ -146,12 +148,9 @@ export const scrapeSnapdeal = async (product, no_of_products) => {
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
     };
 
-    const resp = await fetch(
-        `https://www.snapdeal.com/search?keyword=${product}`,
-        {
-            headers,
-        }
-    );
+    const resp = await fetch(`https://www.snapdeal.com/search?keyword=${product}`, {
+        headers,
+    });
     const text = await resp.text();
     // return text
 
@@ -162,29 +161,23 @@ export const scrapeSnapdeal = async (product, no_of_products) => {
     productTuples.each((index, element) => {
         if (resultArray.length >= no_of_products) return;
 
-        const name = $(element).find("p.product-title").attr("title");
-
-        const productUrl = $(element)
-            .find("a.dp-widget-link.hashAdded")
-            .attr("href");
-        const originalPrice = $(element)
-            .find("span.product-desc-price.strike")
-            .text()
-            .trim();
-        const discountedPrice = $(element).find("span.product-price").text().trim();
-        const discount = $(element).find("div.product-discount span").text().trim();
-        const ratingPercentage = $(element).find("div.filled-stars").css("width");
-        const numRatings = $(element).find("p.product-rating-count").text().trim();
-
+        const name = $(element).find('p.product-title').attr('title');
+        const imageSrc = $(element).find('div.product-tuple-image img.product-image').attr('src');
+        const productUrl = $(element).find('a.dp-widget-link.hashAdded').attr('href');
+        const originalPrice = $(element).find('span.product-desc-price.strike').text().trim();
+        const discountedPrice = $(element).find('span.product-price').text().trim();
+        const discount = $(element).find('div.product-discount span').text().trim();
+        const ratingPercentage =  parseFloat($(element).find('div.filled-stars').css('width')) / 20; 
+        const rating = ratingPercentage.toFixed(1)
+        const numRatings = $(element).find('p.product-rating-count').text().trim();
         resultArray.push({
             name,
-            discountedPrice,
-            originalPrice,
+            imageSrc,
             productUrl,
-            
-            
+            originalPrice,
+            discountedPrice,
             discount,
-            ratingPercentage,
+            rating,
             numRatings,
         });
     });
