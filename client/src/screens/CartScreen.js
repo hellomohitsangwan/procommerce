@@ -54,7 +54,7 @@ const CartScreen = ({ match, location, history }) => {
           <div className="black-underline"></div>
           {cartItems.length === 0 ? (
             <Message children="Your cart is empty">
-              <Link to="/home">Go Back</Link>
+              <Link to="/">Go Back</Link>
             </Message>
           ) : (
             <ListGroup variant="flush">
