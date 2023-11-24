@@ -1,5 +1,31 @@
 import * as cheerio from "cheerio";
 
+// Function to parse the price string and convert it to an integer
+const parsePrice = (price) => {
+    const numericPrice = parseInt(String(price).replace(/[^\d]/g, ""), 10);
+    return isNaN(numericPrice) ? null : numericPrice;
+};
+
+// Function to parse the rating string and convert it to a float
+const parseRating = (rating) => {
+    const numericRating = parseFloat(rating);
+    return isNaN(numericRating) ? null : numericRating;
+};
+
+const parseDiscount = (discount) => {
+    const numericDiscount = parseInt(discount.replace(/[^\d]/g, ""), 10);
+    return isNaN(numericDiscount) ? null : numericDiscount;
+};
+
+const calculateDiscount = (originalPrice, discountedPrice) => {
+    if (originalPrice && discountedPrice) {
+        const discountPercentage =
+            ((originalPrice - discountedPrice) / originalPrice) * 100;
+        return Math.round(discountPercentage);
+    }
+    return null;
+};
+
 export const scrapeAmazon = async (product, no_of_products) => {
     const headers = {
         "User-Agent":
@@ -26,7 +52,12 @@ export const scrapeAmazon = async (product, no_of_products) => {
 
         // Extract prices
         const priceContainer = $element(".a-price");
-        const discountedPrice = priceContainer.find(".a-offscreen").text().trim();
+        const discountedPricest = priceContainer.find(".a-offscreen").text().trim();
+        const match = discountedPricest.match(/₹([^₹]+)/);
+
+        // Extract the matched value and remove commas
+        const discountedPrice = match ? parseFloat(match[1].replace(/,/g, "")) : 0;
+
         const originalPrice =
             priceContainer.find(".a-price-symbol + .a-price-whole").text().trim() ||
             discountedPrice;
@@ -46,11 +77,15 @@ export const scrapeAmazon = async (product, no_of_products) => {
 
         resultArray.push({
             name,
-            discountedPrice,
-            originalPrice,
-            rating,
+            discountedPrice: parsePrice(discountedPrice),
+            originalPrice: parsePrice(originalPrice),
+            rating: parseRating(rating),
             productUrl,
-            totalReviews,
+            totalReviews: parseInt(totalReviews.replace(/[^\d]/g, ""), 10) || null,
+            discount: calculateDiscount(
+                parsePrice(originalPrice),
+                parsePrice(discountedPrice)
+            ),
         });
     });
 
@@ -92,11 +127,11 @@ export const scrapeFlipkart = async (product, no_of_products) => {
 
         resultArray.push({
             name,
-            discountedPrice,
-            originalPrice,
-            rating,
-            totalReviews,
-            discount,
+            discountedPrice: parsePrice(discountedPrice),
+            originalPrice: parsePrice(originalPrice),
+            rating: parseRating(rating),
+            totalReviews: parseInt(totalReviews.replace(/[^\d]/g, ""), 10) || null,
+            discount: parseDiscount(discount),
         });
     });
 
@@ -124,18 +159,21 @@ export const scrapeShopclues = async (product, no_of_products) => {
         const imageSrc = $(element).find("div.img_section img").attr("src");
         const productUrl = $(element).find("a").attr("href");
         const price = $(element).find("div.p_price").text().trim();
-        const discountedPrice = $(element).find("span.old_prices span").text().trim();
+        const discountedPrice = $(element)
+            .find("span.old_prices span")
+            .text()
+            .trim();
         const discount = $(element).find("span.prd_discount").text().trim();
         const refurbishedBadge = $(element).find("div.refurbished_i").text().trim();
-
 
         resultArray.push({
             name,
             imageSrc,
             productUrl,
-            discountedPrice,
-            discount,
-            refurbishedBadge
+            discountedPrice: parsePrice(discountedPrice),
+            discount: parseDiscount(discount),
+
+            refurbishedBadge,
         });
     });
 
@@ -148,9 +186,12 @@ export const scrapeSnapdeal = async (product, no_of_products) => {
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
     };
 
-    const resp = await fetch(`https://www.snapdeal.com/search?keyword=${product}`, {
-        headers,
-    });
+    const resp = await fetch(
+        `https://www.snapdeal.com/search?keyword=${product}`,
+        {
+            headers,
+        }
+    );
     const text = await resp.text();
     // return text
 
@@ -161,24 +202,33 @@ export const scrapeSnapdeal = async (product, no_of_products) => {
     productTuples.each((index, element) => {
         if (resultArray.length >= no_of_products) return;
 
-        const name = $(element).find('p.product-title').attr('title');
-        const imageSrc = $(element).find('div.product-tuple-image img.product-image').attr('src');
-        const productUrl = $(element).find('a.dp-widget-link.hashAdded').attr('href');
-        const originalPrice = $(element).find('span.product-desc-price.strike').text().trim();
-        const discountedPrice = $(element).find('span.product-price').text().trim();
-        const discount = $(element).find('div.product-discount span').text().trim();
-        const ratingPercentage =  parseFloat($(element).find('div.filled-stars').css('width')) / 20; 
-        const rating = ratingPercentage.toFixed(1)
-        const numRatings = $(element).find('p.product-rating-count').text().trim();
+        const name = $(element).find("p.product-title").attr("title");
+        const imageSrc = $(element)
+            .find("div.product-tuple-image img.product-image")
+            .attr("src");
+        const productUrl = $(element)
+            .find("a.dp-widget-link.hashAdded")
+            .attr("href");
+        const originalPrice = $(element)
+            .find("span.product-desc-price.strike")
+            .text()
+            .trim();
+        const discountedPrice = $(element).find("span.product-price").text().trim();
+        const discount = $(element).find("div.product-discount span").text().trim();
+        const ratingPercentage =
+            parseFloat($(element).find("div.filled-stars").css("width")) / 20;
+        const rating = ratingPercentage.toFixed(1);
+        const numRatings = $(element).find("p.product-rating-count").text().trim();
         resultArray.push({
             name,
             imageSrc,
             productUrl,
-            originalPrice,
-            discountedPrice,
-            discount,
-            rating,
-            numRatings,
+            originalPrice: parsePrice(originalPrice),
+            discountedPrice: parsePrice(discountedPrice),
+            discount: parseDiscount(discount),
+
+            rating: parseRating(rating),
+            numRatings: parseInt(numRatings.replace(/[^\d]/g, ""), 10) || null,
         });
     });
 
@@ -221,11 +271,12 @@ export const scrapeNykaa = async (product, no_of_products) => {
         resultArray.push({
             name,
             productUrl,
-            originalPrice,
-            discountedPrice,
-            discount,
-            totalReviews,
-            rating: 4
+            originalPrice: parsePrice(originalPrice),
+            discountedPrice: parsePrice(discountedPrice),
+            discount: parseDiscount(discount),
+
+            totalReviews: parseInt(totalReviews.replace(/[^\d]/g, ""), 10) || null,
+            rating: 4,
         });
     });
 
