@@ -46,7 +46,6 @@ const cartItemsFromState = localStorage.getItem("cartItems")
 const initialState = {
   userLogin: {
     userInfo: userInfoFromStorage,
-    loading: false,
     cartItems: cartItemsFromState,
   },
 };

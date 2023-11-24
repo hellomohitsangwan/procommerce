@@ -77,7 +77,7 @@ const CartScreen = ({ match, location, history }) => {
                         {item.name}
                       </Link>
                     </Col>
-                    <div className="cart-status">
+                    <div className="cart-status col-md-8">
                       <Col md={2}>
                         <span className="cart-price">Price : </span>₹
                         {item.price}
@@ -147,7 +147,7 @@ const CartScreen = ({ match, location, history }) => {
               <div className="gap"></div>
               <div className="checkout-underline"></div>
 
-              <ListGroup.Item onClick={checkoutHandler} >
+              <ListGroup.Item style={{zIndex:"1000"}} type="button" onClick={checkoutHandler} >
                 <Button
                   type="button"
                   className="btn btn-block checkout-btn"

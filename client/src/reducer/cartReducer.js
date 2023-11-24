@@ -34,17 +34,6 @@ import {
           ...state,
           cartItems: state.cartItems.filter((i) => i.product !== action.payload),
         };
-      case CART_SAVE_SHIPPING_ADDRESS:
-        return {
-          ...state,
-          shippingAddress: action.payload,
-          isEmpty: "no",
-        };
-      case CART_SAVE_PAYMENT_METHOD:
-        return {
-          ...state,
-          paymentMethod: action.payload,
-        };
       default:
         return state;
     }
