@@ -12,6 +12,14 @@ import connectDB from "./config/db.js";
 
 const app = express();
 app.use(express.json());
+app.use(morgan('dev'))
+app.use(fileUpload());
+cloudinary.config({
+  cloud_name: "djfh8ecu4",
+  api_key: "329259279517943",
+  api_secret: "SZ9Bp_Tln70t0lCJGv54PrX-lP0",
+});
+connectDB();
 
 const __dirname = path.resolve();
 

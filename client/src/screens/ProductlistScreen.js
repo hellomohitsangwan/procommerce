@@ -13,7 +13,6 @@ import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import MyProductData from "../utils/AdminMyProductsRequest";
 
 const ProductListScreen = ({ history, match }) => {
-  //   const pageNumber = match.params.pageNumber || 1
   const [myProducts, setMyProducts] = useState([]);
   const [newLoading, setNewLoading] = useState(true);
 

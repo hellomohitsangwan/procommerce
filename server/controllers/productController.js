@@ -3,7 +3,6 @@ import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 import cloudinary from "cloudinary";
 
-
 // @desc  Fetch all products
 // @route Get /api/products
 // @access Public
@@ -27,10 +26,10 @@ const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     const user = await User.findById(product.user).select("-password");
-    if(user) {
-    res.json({product , user});
+    if (user) {
+      res.json({ product, user });
     } else {
-      res.json(product)
+      res.json(product);
     }
   } else {
     res.status(404).json({ message: "product not found" });
@@ -41,22 +40,22 @@ const getProductById = asyncHandler(async (req, res) => {
 // @route Get /api/products/myproducts
 // @access Private and only Admin
 const getProductsOfAdmin = asyncHandler(async (req, res) => {
-  const products = await Product.find({user: req.user._id});
+  const products = await Product.find({ user: req.user._id });
   res.json(products);
-})
+});
 
 // @desc  Fetch all reviews for particular Admin's product
 // @route Get /api/products/myreviews
 // @access Private and only Admin
-export const getReviewOfAdmin = asyncHandler(async (req , res) => {
+export const getReviewOfAdmin = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.body.id);
   if (product) {
-    res.json( product.reviews );
+    res.json(product.reviews);
   } else {
     res.status(404);
     throw new Error("product not found");
   }
-})
+});
 
 // @desc  Fetch single products
 // @route Get /api/products/:id
@@ -149,8 +148,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @route PUT /api/products
 // @access Admin protected
 const createProduct = asyncHandler(async (req, res, next) => {
-
   let images = [];
+  console.log(res);
   if (typeof req.body.images === "string") {
     images.push(req.body.images);
   } else {
@@ -159,7 +158,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
 
   let imagesLinks = [];
 
-  for (let i = 0; i < images.length; i++) {
+  for (let i = 0; i < images?.length; i++) {
     const result = await cloudinary.v2.uploader.upload(images[i], {
       folder: "products",
     });
@@ -187,25 +186,25 @@ export {
   deleteProduct,
   updateProduct,
   createProduct,
-  getProductsOfAdmin
+  getProductsOfAdmin,
 };
 
 // @desc    Create new review
 // @route   POST /api/products/:id/reviews
 // @access  Private
 export const createProductReview = asyncHandler(async (req, res) => {
-  const { rating, comment } = req.body
+  const { rating, comment } = req.body;
 
-  const product = await Product.findById(req.params.id)
+  const product = await Product.findById(req.params.id);
 
   if (product) {
     const alreadyReviewed = product.reviews.find(
       (r) => r.user.toString() === req.user._id.toString()
-    )
+    );
 
     if (alreadyReviewed) {
-      res.status(400)
-      throw new Error("You've already posted review for this product")
+      res.status(400);
+      throw new Error("You've already posted review for this product");
     }
 
     const review = {
@@ -213,28 +212,28 @@ export const createProductReview = asyncHandler(async (req, res) => {
       rating: Number(rating),
       comment,
       user: req.user._id,
-    }
+    };
 
-    product.reviews.push(review)
+    product.reviews.push(review);
 
-    product.numReviews = product.reviews.length
+    product.numReviews = product.reviews.length;
 
     product.rating =
       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-      product.reviews.length
+      product.reviews.length;
 
-    await product.save()
-    res.status(201).json({ message: 'Review added' })
+    await product.save();
+    res.status(201).json({ message: "Review added" });
   } else {
-    res.status(404)
-    throw new Error('Product not found')
+    res.status(404);
+    throw new Error("Product not found");
   }
-})
+});
 
 // @desc    Get top rated products
 // @route   GET /api/products/top
 // @access  Public
 export const getTopProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ rating: -1 }).limit(3)
-  res.json(products)
-})
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  res.json(products);
+});
