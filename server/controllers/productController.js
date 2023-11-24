@@ -37,18 +37,18 @@ const getProductById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc  Fetch all products farmer created
+// @desc  Fetch all products Admin created
 // @route Get /api/products/myproducts
-// @access Private and only farmer
-const getProductsOfFarmer = asyncHandler(async (req, res) => {
+// @access Private and only Admin
+const getProductsOfAdmin = asyncHandler(async (req, res) => {
   const products = await Product.find({user: req.user._id});
   res.json(products);
 })
 
-// @desc  Fetch all reviews for particular farmer's product
+// @desc  Fetch all reviews for particular Admin's product
 // @route Get /api/products/myreviews
-// @access Private and only farmer
-export const getReviewOfFarmer = asyncHandler(async (req , res) => {
+// @access Private and only Admin
+export const getReviewOfAdmin = asyncHandler(async (req , res) => {
   const product = await Product.findById(req.body.id);
   if (product) {
     res.json( product.reviews );
@@ -187,7 +187,7 @@ export {
   deleteProduct,
   updateProduct,
   createProduct,
-  getProductsOfFarmer
+  getProductsOfAdmin
 };
 
 // @desc    Create new review
