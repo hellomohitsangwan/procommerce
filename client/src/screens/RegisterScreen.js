@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import Header from "../components/Header";
 
 const Register = ({history}) => {
     const [email, setEmail] = useState("");
@@ -32,6 +33,7 @@ const Register = ({history}) => {
 
     return (
         <>
+        <Header />
         <div className="container">
             <div>
             <h1>Sign Up</h1>

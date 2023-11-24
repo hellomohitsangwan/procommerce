@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import Header from "../components/Header";
 
 function HomeScreen() {
   return (
-    <div>HomeScreen</div>
-  )
+    <div>
+      <Header />
+      <div className="container">
+        container
+      </div>
+    </div>
+  );
 }
 
-export default HomeScreen
+export default HomeScreen;

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-// import Header from "../components/Header";
+import Header from "../components/Header";
 
 const Login = ({history}) => {
   const [email, setEmail] = useState("");
@@ -28,7 +28,7 @@ const Login = ({history}) => {
   return (
     // <FormContainer>
     <>
-      {/* <Header /> */}
+      <Header />
 
       <div className="container">
         <div>
