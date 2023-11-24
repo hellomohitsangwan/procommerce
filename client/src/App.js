@@ -9,8 +9,9 @@ function App() {
   return (
     <Router>
       <main>
-        
+      <Header />
         <Route path="/" component={HomeScreen} exact />
+        
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
       </main>

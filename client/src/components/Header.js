@@ -49,9 +49,14 @@ const Header = () => {
                 <Link to="/login">SignIn</Link>
               )}
               {userInfo && userInfo.isAdmin && (
+                <>
                 <div>
-                  <Link to="/dashboard">Dashboard</Link>
-                </div>
+                    <Link to="/compare">Compare</Link>
+                  </div>
+                  <div>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </div>
+                </>
               )}
               <li>
                 <Link to="/cart">
