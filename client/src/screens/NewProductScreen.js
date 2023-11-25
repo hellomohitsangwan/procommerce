@@ -155,7 +155,7 @@ const NewProductScreen = ({ history }) => {
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="countInStock">
-                <Form.Label>Count In Stock (kgs)</Form.Label>
+                <Form.Label>Count In Stock</Form.Label>
                 <Form.Control
                   type="number"
                   placeholder="Enter countInStock"
