@@ -1,0 +1,19 @@
+/* filterDropdown.css */
+
+.container {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+  }
+  
+  .label {
+	margin-right: 10px;
+  }
+  
+  .dropdown {
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	cursor: pointer;
+  }
+  
