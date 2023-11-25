@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../actions/cartActions";
@@ -15,11 +15,22 @@ import {
 } from "react-bootstrap";
 import Message from "../components/Message";
 import Footer from "../components/Footer";
+import ComingSoonScreen from "./ComingSoonScreen";
 
 const CartScreen = ({ match, location, history }) => {
-  //match is to get routes in linked
-  //location is to get query params in link
-  //history is to redirect to a link
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  
   const productId = match.params.id;
 
   // location.qty it gives me ?qty=1
@@ -43,7 +54,12 @@ const CartScreen = ({ match, location, history }) => {
   }, [dispatch, productId, qty, history]);
   console.log(cartItems);
   return (
-    <div>
+
+
+
+    <>
+{windowWidth >= 1000 ? (    <div>
+      
       <div className="cart-background">
         <img src={cartBackground} alt="" />
       </div>
@@ -161,8 +177,11 @@ const CartScreen = ({ match, location, history }) => {
           </Card>
         </Col>
       </Row>
-    </div>
-    
+    </div>) : (<ComingSoonScreen />)}
+
+
+
+    </>
   );
 };
 

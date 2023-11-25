@@ -10,6 +10,7 @@ import NewProductScreen from "./screens/NewProductScreen";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import CompareScreen from "./screens/CompareScreen";
+import ComingSoonScreen from "./screens/ComingSoonScreen";
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
       <main>
         <Header />
         <Route exact path="/" component={HomeScreen} />
-
+        <Route path="/profile" component={ComingSoonScreen} />
+        <Route path="/admin/reviews" component={ComingSoonScreen} />
         <Route path="/product/:id" component={ProductScreen} />
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
@@ -26,8 +28,6 @@ function App() {
         <Route path="/admin/product/new" component={NewProductScreen} />
         <Route path="/cart/:id?" component={CartScreen} />
         <Route path="/compare" component={CompareScreen} />
-
-
       </main>
     </Router>
   );

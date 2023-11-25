@@ -1260,3 +1260,18 @@ html {
   .mwlf {
     align-items: end;
   }
+
+  .css-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    font-size: 16px;
+  }
+  .hlt {
+    color: #007bff;
+  }
+  .bld {
+    font-weight: bolder !important;
+  }
