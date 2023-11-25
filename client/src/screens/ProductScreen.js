@@ -155,7 +155,7 @@ const ProductScreen = ({ match, history }) => {
             </Col>
             <div className="farmer-details col-md-6 " md={3}>
               <img src={avator} alt="" className="avator-details" />
-              <p className="details-title">Farmer Detail's</p>
+              <p className="details-title">Admin Details</p>
               <Col>
                 <p className="detail-name">
                   <span className="span-details">Name : </span>
@@ -166,7 +166,7 @@ const ProductScreen = ({ match, history }) => {
                   {product?.user?.email}
                 </p>
                 <p className="detail-since">
-                  <span className="span-details">Farmer Since : </span>
+                  <span className="span-details">Admin Since : </span>
                   {product?.user?.createdAt.split("T")[0]}
                 </p>
               </Col>

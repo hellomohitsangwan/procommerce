@@ -6,7 +6,7 @@ import {
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   //getState is just toState of whatever reducer we want preset in our state
-  const { data } = await axios.get(`/api/products/${id}`);
+  const { data } = await axios.get(`https://procommerce.onrender.com/api/products/${id}`);
   dispatch({
     type: CART_ADD_ITEM,
     payload: {

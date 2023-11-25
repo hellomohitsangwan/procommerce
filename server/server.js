@@ -10,7 +10,11 @@ import morgan from "morgan";
 import fileUpload from "express-fileupload";
 import connectDB from "./config/db.js";
 
+
+
+
 const app = express();
+app.use(corsMiddleware);
 app.use(express.json());
 app.use(morgan('dev'))
 app.use(fileUpload());

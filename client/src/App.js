@@ -19,6 +19,7 @@ function App() {
         <Header />
         <Route exact path="/" component={HomeScreen} />
         <Route path="/profile" component={ComingSoonScreen} />
+        <Route path="/new" component={ComingSoonScreen} />
         <Route path="/admin/reviews" component={ComingSoonScreen} />
         <Route path="/product/:id" component={ProductScreen} />
         <Route path="/register" component={Register} />

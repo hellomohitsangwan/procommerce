@@ -43,7 +43,7 @@ const CartScreen = ({ match, location, history }) => {
     dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
-    history.push("/login?redirect=shipping");
+    history.push("/new");
   };
   useEffect(() => {
     if (productId) {

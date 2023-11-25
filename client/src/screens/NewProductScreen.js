@@ -43,7 +43,7 @@ const NewProductScreen = ({ history }) => {
         history.push("/admin/productlist");
       }
     } else {
-      history.push("/login");
+      // history.push("/login");
     }
   }, [dispatch, success, history, userInfo]);
   const submitHandler = (e) => {
@@ -109,7 +109,7 @@ const NewProductScreen = ({ history }) => {
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="price">
-                <Form.Label>Price Per Kg</Form.Label>
+                <Form.Label>Price </Form.Label>
                 <Form.Control
                   type="number"
                   placeholder="Enter price"
@@ -146,10 +146,10 @@ const NewProductScreen = ({ history }) => {
                 ))}
               </div>{" "}
               <Form.Group controlId="brand">
-                <Form.Label>Farmer's Name</Form.Label>
+                <Form.Label>Name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter farmer's name"
+                  placeholder="Enter name"
                   value={brand}
                   onChange={(e) => setBrand(e.target.value)}
                 ></Form.Control>

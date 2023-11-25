@@ -87,13 +87,13 @@ footer
       height: 100px;
     }
   }
-  .ratings {
+  /* .ratings {
     position: relative;
     top: -20px;
     right: 10px;
     font-size: 1.2rem;
     color: #fdcc0d;
-  }
+  } */
   
   #no_of_reviews {
     font-size: 0.85rem;
@@ -281,23 +281,23 @@ footer
     color: #6A6363;
   }
   
-  .star{
+  /* .star{
     position: relative;
     top: 8px;
     right: 52px;
     color: white;
-  }
+  } */
   .rating{
     display: flex;
     margin-top: 10px;
     margin-bottom: 10px;
   }
   
-  .rating-review{
+  /* .rating-review{
     position: relative;
     top: 10px;
     right: 0px;
-  }
+  } */
   
   .recom-ul{
     width: 400px !important;

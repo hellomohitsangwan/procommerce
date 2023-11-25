@@ -8,6 +8,7 @@ import "./Screen.css";
 import {
   listProducts,
   deleteProduct,
+  createProduct,
 } from "../actions/productAction";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import MyProductData from "../utils/AdminMyProductsRequest";
@@ -92,7 +93,7 @@ const ProductListScreen = ({ history, match }) => {
   };
 
   const createProductHandler = () => {
-    // dispatch(createProduct());
+    dispatch(createProduct());
     history.push("/admin/product/new");
   };
 

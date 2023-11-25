@@ -25,7 +25,7 @@ function CompareScreen() {
   const handleCompare = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/scrape", {
+      const response = await axios.post("https://procommerce.onrender.com/api/scrape", {
         searchTerm,
         filter,
         topN,

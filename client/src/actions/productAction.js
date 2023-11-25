@@ -28,7 +28,7 @@ import {
     async (dispatch) => {
       try {
         dispatch({ type: PRODUCT_LIST_REQUEST });
-        const res = await axios.get(`/api/products?keyword=${keyword}`);
+        const res = await axios.get(`https://procommerce.onrender.com/api/products?keyword=${keyword}`);
         if (res.status === 500) {
           dispatch({
             type: PRODUCT_LIST_FAIL,
@@ -52,7 +52,7 @@ import {
   export const listProductDetails = (id) => async (dispatch) => {
     try {
       dispatch({ type: PRODUCT_DETAILS_REQUEST });
-      const { data } = await axios.get(`/api/products/${id}`);
+      const { data } = await axios.get(`https://procommerce.onrender.com/api/products/${id}`);
       dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
     } catch (err) {
       dispatch({
@@ -78,7 +78,7 @@ import {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      await axios.delete(`/api/products/${id}`, config);
+      await axios.delete(`https://procommerce.onrender.com/api/products/${id}`, config);
       dispatch({ type: PRODUCT_DELETE_SUCCESS });
     } catch (err) {
       dispatch({
@@ -103,7 +103,7 @@ import {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const { data } = await axios.post(`/api/products`, {}, config);
+      const { data } = await axios.post(`https://procommerce.onrender.com/api/products`, {}, config);
       dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
     } catch (err) {
       dispatch({
@@ -128,7 +128,7 @@ import {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const { data } = await axios.put(`/api/products/${id}`, product, config);
+      const { data } = await axios.put(`https://procommerce.onrender.com/api/products/${id}`, product, config);
       dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: data });
     } catch (err) {
       dispatch({
@@ -154,7 +154,7 @@ import {
         },
       };
   
-      const { data } = await axios.post(`/api/products`, productData, config);
+      const { data } = await axios.post(`https://procommerce.onrender.com/api/products`, productData, config);
   
       dispatch({
         type: NEW_PRODUCT_SUCCESS,
@@ -194,7 +194,7 @@ import {
         },
       }
   
-      await axios.post(`/api/products/${productId}/reviews`, review, config)
+      await axios.post(`https://procommerce.onrender.comhttps://procommerce.onrender.com/api/products/${productId}/reviews`, review, config)
   
       dispatch({
         type: PRODUCT_CREATE_REVIEW_SUCCESS,

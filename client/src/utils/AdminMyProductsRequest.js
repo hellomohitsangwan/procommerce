@@ -8,7 +8,7 @@ const AdminProductData = async (token) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const {data} = await axios.get(`/api/products/myproducts`,config);
+      const {data} = await axios.get(`https://procommerce.onrender.com/api/products/myproducts`,config);
       return data;
       
 }
