@@ -21,7 +21,7 @@ const Slider = ({ selectedValue, onSelectValue }) => {
 
   return (
     <div style={containerStyle}>
-      <label style={labelStyle}>Top N:</label>
+      <label style={labelStyle}>Products :</label>
       <input
         type="range"
         min="1"
