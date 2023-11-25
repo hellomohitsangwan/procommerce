@@ -1236,3 +1236,27 @@ html {
     color: pink;
   }
   
+
+
+
+
+
+  .m-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: auto;
+    justify-content: space-between;
+  }
+
+  .m-wrapper-left {
+    width: 848px;
+  }
+
+  .m-wrapper-right {
+    margin-right: 8px;
+  }
+
+  .mwlf {
+    align-items: end;
+  }

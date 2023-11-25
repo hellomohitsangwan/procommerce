@@ -4,9 +4,12 @@ import CompareWebsites from "../components/CompareWebsites";
 import SortPrice from "../components/SortPrice";
 import SelectProduct from "../components/SelectProduct";
 import Search from "../components/Search";
+import "./Screen.css";
+import { Button, Col, Table } from "react-bootstrap";
+import Product from "../components/Product";
+import { LinkContainer } from "react-router-bootstrap";
 
 function CompareScreen() {
-  const [obj, setObj] = useState({});
   const [filter, setFilter] = useState("highest");
   const [comparisonWebsites, setComparisonWebsites] = useState([
     "amazon",
@@ -15,7 +18,7 @@ function CompareScreen() {
     "snapdeal",
     "nykaa",
   ]); // Initial state with all websites checked
-  const [searchTerm, setSearchTerm] = useState("appe");
+  const [searchTerm, setSearchTerm] = useState("apple iphone 12");
   const [topN, setTopN] = useState(4);
   const [comparisonResults, setComparisonResults] = useState([]);
 
@@ -27,46 +30,90 @@ function CompareScreen() {
         topN,
         comparisonWebsites,
       });
-      setComparisonResults(response.data);
+      console.log(response.data);
+      setComparisonResults(response?.data);
+      // console.log
     } catch (error) {
       console.error("Error while fetching comparison data:", error);
     }
   };
 
   useEffect(() => {
-    handleCompare();
-    console.log(comparisonResults);
+    const fetchData = async () => {
+      await handleCompare();
+      console.log(comparisonResults);
+    };
+    fetchData();
+    // console.log(comparisonResults);
   }, [filter, comparisonWebsites, topN]);
 
   const websites = ["amazon", "flipkart", "shopclues", "snapdeal", "nykaa"];
 
-
   return (
-    <div className="containeer">
-      <div className="d-flex flex-row">
-        {" "}
-        <Search
-          searchTerm={searchTerm}
-          onSearchTermChange={(value) => setSearchTerm(value)}
-        />
-        <button onClick={handleCompare} className="btn-block1">
-          Search
-        </button>
-      </div>
+    <div className="m-wrapper">
+      <div className="m-wrapper-left">
+        <div className="mwlf d-flex flex-row">
+          {" "}
+          <Search
+            searchTerm={searchTerm}
+            onSearchTermChange={(value) => setSearchTerm(value)}
+          />
+          <Button  onClick={handleCompare} className="my-3">
+            Search
+          </Button>
+        </div>
 
-      <SortPrice
-        selectedFilter={filter}
-        onSelectFilter={(selectedFilter) => setFilter(selectedFilter)}
-      />
-      <CompareWebsites
-        cw={websites}
-        filterGenre={comparisonWebsites}
-        setFilterGenre={(genre) => setComparisonWebsites(genre)}
-      />
-      <SelectProduct
-        selectedValue={topN}
-        onSelectValue={(value) => setTopN(value)}
-      />
+        {comparisonResults && (
+          <Table striped bordered hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>WEBSITE</th>
+                <th>NAME</th>
+                <th>PRICE</th>
+                <th>RATING</th>
+                <th>REVIEWS</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparisonResults.map((product, key) => (
+                <tr key={key}>
+                  <td>{product?.website}</td>
+                  <td>{product?.title}</td>
+                  <td>₹ {product?.currentPrice}</td>
+                  <td>{product?.rating}</td>
+                  <td>{product?.reviewCount}</td>
+                  {/* <td>{product?.url}</td> */}
+                  <td>
+                    <Button
+                      variant="danger"
+                      className="btn-sm"
+                      onClick={() => (window.location.href = product?.url)}
+                    >
+                      Go to Product
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </div>
+      <div className="m-wrapper-right">
+        <SortPrice
+          selectedFilter={filter}
+          onSelectFilter={(selectedFilter) => setFilter(selectedFilter)}
+        />
+        <CompareWebsites
+          cw={websites}
+          filterGenre={comparisonWebsites}
+          setFilterGenre={(genre) => setComparisonWebsites(genre)}
+        />
+        <SelectProduct
+          selectedValue={topN}
+          onSelectValue={(value) => setTopN(value)}
+        />
+      </div>
     </div>
   );
 }
