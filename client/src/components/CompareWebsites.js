@@ -10,8 +10,6 @@ const CompareWebsites = ({cw, filterGenre, setFilterGenre }) => {
 			setFilterGenre(state);
 		}
 	};
-    
-    const websites = ["amazon", "flipkart", "shopclues", "snapdeal", "nykaa"]
 	return (
 		<div className={styles.container}>
 			<h1 className={styles.heading}>Filter By Websites</h1>
