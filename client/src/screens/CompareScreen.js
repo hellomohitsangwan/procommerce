@@ -11,7 +11,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Loader from "../components/Loader";
 
 function CompareScreen() {
-  const [filter, setFilter] = useState("highest");
+  const [filter, setFilter] = useState("lowestPrice");
   const [comparisonWebsites, setComparisonWebsites] = useState([
     "amazon",
     "flipkart",

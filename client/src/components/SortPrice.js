@@ -62,8 +62,8 @@ const SortPrice = ({ selectedFilter, onSelectFilter }) => {
         onChange={handleSelectChange}
         style={selectStyle}
       >
-        <option value="lowest">Lowest Price</option>
-        <option value="highest">Highest Price</option>
+        <option value="lowestPrice">Lowest Price</option>
+        <option value="highestPrice">Highest Price</option>
       </select>
     </div>
   );
