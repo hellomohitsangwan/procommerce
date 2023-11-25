@@ -1,12 +1,10 @@
 import * as cheerio from "cheerio";
 
-// Function to parse the price string and convert it to an integer
 const parsePrice = (price) => {
     const numericPrice = parseInt(String(price).replace(/[^\d]/g, ""), 10);
     return isNaN(numericPrice) ? null : numericPrice;
 };
 
-// Function to parse the rating string and convert it to a float
 const parseRating = (rating) => {
     const numericRating = parseFloat(rating);
     return isNaN(numericRating) ? null : numericRating;
@@ -47,29 +45,23 @@ export const scrapeAmazon = async (product, no_of_products) => {
         const ele = $(element).html();
         const $element = cheerio.load(ele);
 
-        // Extract name
         const name = $element("h2 a span").text().trim();
 
-        // Extract prices
         const priceContainer = $element(".a-price");
         const discountedPricest = priceContainer.find(".a-offscreen").text().trim();
         const match = discountedPricest.match(/₹([^₹]+)/);
 
-        // Extract the matched value and remove commas
         const discountedPrice = match ? parseFloat(match[1].replace(/,/g, "")) : 0;
 
         const originalPrice =
             priceContainer.find(".a-price-symbol + .a-price-whole").text().trim() ||
             discountedPrice;
 
-        // Extract rating
         const rating = $element(".a-icon-star-small .a-icon-alt").text().trim();
 
-        // Extract URL
         const url = $element("h2 a").attr("href");
         const productUrl = `https://www.amazon.in${url}`;
 
-        // Extract total review count
         const totalReviewsContainer = $element(
             ".a-section .a-row.a-size-small span.a-size-base"
         );

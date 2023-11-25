@@ -22,7 +22,7 @@ const Header = () => {
       {location.pathname === "/iuyf" ? null : (
         <nav className="navbar">
           <div className="nav-center">
-            <Link to="/profile">
+            <Link to="/">
               <img
                 src="https://static.vecteezy.com/system/resources/previews/028/071/362/non_2x/shop-logo-with-bag-icon-for-e-commerce-and-store-logo-vector.jpg"
                 alt="logo"

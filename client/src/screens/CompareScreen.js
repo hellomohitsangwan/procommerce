@@ -6,8 +6,6 @@ import SelectProduct from "../components/SelectProduct";
 import Search from "../components/Search";
 import "./Screen.css";
 import { Button, Col, Table } from "react-bootstrap";
-import Product from "../components/Product";
-import { LinkContainer } from "react-router-bootstrap";
 import Loader from "../components/Loader";
 
 function CompareScreen() {
@@ -39,7 +37,7 @@ function CompareScreen() {
     } catch (error) {
       console.error("Error while fetching comparison data:", error);
     } finally {
-      setLoading(false); // Set loading to false after the request is completed
+      setLoading(false); 
     }
   };
 
