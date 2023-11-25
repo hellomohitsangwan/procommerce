@@ -8,6 +8,7 @@ import "./Screen.css";
 import { Button, Col, Table } from "react-bootstrap";
 import Product from "../components/Product";
 import { LinkContainer } from "react-router-bootstrap";
+import Loader from "../components/Loader";
 
 function CompareScreen() {
   const [filter, setFilter] = useState("highest");
@@ -21,9 +22,11 @@ function CompareScreen() {
   const [searchTerm, setSearchTerm] = useState("apple iphone 12");
   const [topN, setTopN] = useState(4);
   const [comparisonResults, setComparisonResults] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleCompare = async () => {
     try {
+      setLoading(true);
       const response = await axios.post("/api/scrape", {
         searchTerm,
         filter,
@@ -35,6 +38,8 @@ function CompareScreen() {
       // console.log
     } catch (error) {
       console.error("Error while fetching comparison data:", error);
+    } finally {
+      setLoading(false); // Set loading to false after the request is completed
     }
   };
 
@@ -58,7 +63,7 @@ function CompareScreen() {
             searchTerm={searchTerm}
             onSearchTermChange={(value) => setSearchTerm(value)}
           />
-          <Button  onClick={handleCompare} className="my-3">
+          <Button onClick={handleCompare} className="my-3">
             Search
           </Button>
         </div>
@@ -76,25 +81,31 @@ function CompareScreen() {
               </tr>
             </thead>
             <tbody>
-              {comparisonResults.map((product, key) => (
-                <tr key={key}>
-                  <td>{product?.website}</td>
-                  <td>{product?.title}</td>
-                  <td>₹ {product?.currentPrice}</td>
-                  <td>{product?.rating}</td>
-                  <td>{product?.reviewCount}</td>
-                  {/* <td>{product?.url}</td> */}
-                  <td>
-                    <Button
-                      variant="danger"
-                      className="btn-sm"
-                      onClick={() => (window.location.href = product?.url)}
-                    >
-                      Go to Product
-                    </Button>
-                  </td>
-                </tr>
-              ))}
+              {loading ? (
+                <Loader />
+              ) : (
+                comparisonResults.map((product, key) => (
+                  <tr key={key}>
+                    <td>{product?.website}</td>
+                    <td>{product?.title}</td>
+                    <td>₹ {product?.currentPrice}</td>
+                    <td>{product?.rating}</td>
+                    <td>{product?.reviewCount}</td>
+                    {/* <td>{product?.url}</td> */}
+                    <td>
+                      {product?.url && (
+                        <Button
+                          variant="danger"
+                          className="btn-sm"
+                          onClick={() => (window.location.href = product?.url)}
+                        >
+                          Go to Product
+                        </Button>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </Table>
         )}
